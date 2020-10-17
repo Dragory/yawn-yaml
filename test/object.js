@@ -210,7 +210,7 @@ describe('preserves comments and styling in objects when', ()=> {
       expect(yawn.yaml).to.equal(`
       # leading comment
       a:
-        x: abc
+        x: "abc"
       b:
         y: 'b'
         z: abc

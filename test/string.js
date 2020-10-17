@@ -18,7 +18,7 @@ describe('preserves comments and styling when', ()=> {
 
       expect(yawn.yaml).to.equal(`
         # leading comment
-        newValue # inline comment
+        "newValue" # inline comment
         # trailing comment`);
     });
 
@@ -34,6 +34,21 @@ describe('preserves comments and styling when', ()=> {
       expect(yawn.yaml).to.equal(`
         # leading comment
         null # inline comment
+        # trailing comment`);
+    });
+
+    it('string numbers stay as numbers', ()=> {
+      let str = `
+        # leading comment
+        foo: "1000" # inline comment
+        # trailing comment`;
+
+      let yawn = new YAWN(str);
+      yawn.json = { foo: "1001" };
+
+      expect(yawn.yaml).to.equal(`
+        # leading comment
+        foo: "1001" # inline comment
         # trailing comment`);
     });
   });

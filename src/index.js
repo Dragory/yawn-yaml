@@ -293,7 +293,7 @@ function updateMap(ast, newJson, json, yaml, offset) {
 */
 function replacePrimitive(node, value, yaml, offset) {
   return yaml.substr(0, node.start_mark.pointer + offset) +
-    String(value) +
+    JSON.stringify(value) +
     yaml.substring(node.end_mark.pointer + offset);
 }
 
@@ -417,6 +417,10 @@ function indent(str, depth) {
  *
 */
 function cleanDump(value) {
+  if (value === null || isString(value) || isNumber(value)) {
+    return value;
+  }
+
   let yaml = dump(value).replace(/\n$/, '');
 
   if (EOL !== '\n') {
