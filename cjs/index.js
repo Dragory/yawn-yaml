@@ -310,7 +310,7 @@ function updateMap(ast, newJson, json, yaml, offset) {
  * @returns {string}
 */
 function replacePrimitive(node, value, yaml, offset) {
-  return yaml.substr(0, node.start_mark.pointer + offset) + String(value) + yaml.substring(node.end_mark.pointer + offset);
+  return yaml.substr(0, node.start_mark.pointer + offset) + JSON.stringify(value) + yaml.substring(node.end_mark.pointer + offset);
 }
 
 /*
@@ -438,6 +438,10 @@ function indent(str, depth) {
  *
 */
 function cleanDump(value) {
+  if (value === null || (0, _lodash.isString)(value) || (0, _lodash.isNumber)(value)) {
+    return value;
+  }
+
   var yaml = (0, _jsYaml.dump)(value).replace(/\n$/, '');
 
   if (_os.EOL !== '\n') {
